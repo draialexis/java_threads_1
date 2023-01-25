@@ -1,16 +1,21 @@
 public class Main {
     public static void main(String[] args) {
-        PastryShop shop = new PastryShop();
+        boolean isFair = false;
+        PastryShop shop = new PastryShop(20, isFair);
 
-        Thread producer1 = new Thread(new PastryChef(shop));
-        Thread consumer1 = new Thread(new Customer(shop));
-        Thread consumer2 = new Thread(new Customer(shop));
-        Thread consumer3 = new Thread(new Customer(shop));
+        new Thread(new PastryChef(shop)).start();
+        new Thread(new PastryChef(shop)).start();
+        new Thread(new PastryChef(shop)).start();
 
-        producer1.start();
-        consumer1.start();
-        consumer2.start();
-        consumer3.start();
+        int c = 1;
+        while(c++ < 110) {
+            new Thread(new Customer(shop)).start();
+        }
+
+        new Thread(new PastryChef(shop)).start();
+        new Thread(new PastryChef(shop)).start();
+
+        System.out.println(c + " customers made");
 
     }
 }
